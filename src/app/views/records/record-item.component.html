@@ -1,0 +1,67 @@
+<div class="fadeIn" style="margin-top: 70px;">
+  <div class="container">
+
+    <div class="row">
+
+      <!-- Post Content Column -->
+      <div class="col-lg-8">
+
+        <div *ngIf="!!record">
+          <!-- Title -->
+          <h1 class="mt-4">{{ record.title }}</h1>
+
+          <!--&lt;!&ndash; Author &ndash;&gt;-->
+          <!--<p class="lead">-->
+          <!--by-->
+          <!--<a href="#">Start Bootstrap</a>-->
+          <!--</p>-->
+
+          <!--<hr>-->
+
+          <!--&lt;!&ndash; Date/Time &ndash;&gt;-->
+          <!--<p>Posted on January 1, 2018 at 12:00 PM</p>-->
+
+          <hr>
+
+          <!-- Preview Image -->
+          <img class="img-fluid rounded" src={{record.image}} alt="">
+
+          <hr>
+
+          <!-- Post Content -->
+          <p class="lead">
+            {{ record.description }}
+          </p>
+
+          <!-- Comments Form -->
+          <div class="card my-4">
+            <h5 class="card-header">Leave a Comment:</h5>
+            <div class="card-body">
+              <form>
+                <div class="form-group">
+                  <textarea name="text" class="form-control" rows="3" [(ngModel)]="comment.text"></textarea>
+                </div>
+                <button type="button" class="btn btn-primary" (click)="leaveComment(comment)">Submit</button>
+              </form>
+            </div>
+          </div>
+        </div>
+
+        <!-- Single Comment -->
+        <div *ngIf="!!comments.length">
+          <div class="media mb-4" *ngFor="let comment of comments">
+            <img class="d-flex mr-3 rounded-circle" src="http://placehold.it/50x50" alt="">
+            <div class="media-body">
+              <h5 class="mt-0">{{comment.email}}</h5>
+              {{ comment.text }}
+            </div>
+          </div>
+        </div>
+      </div>
+
+
+    </div>
+    <!-- /.row -->
+
+  </div>
+</div>

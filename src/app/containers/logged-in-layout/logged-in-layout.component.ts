@@ -1,8 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 
-import { LocalStorageHelper } from '../../lib/LocalStorageHelper';
-const lsHelper = new LocalStorageHelper();
+import { LoginService } from '../../services/LoginService';
 
 @Component({
   selector: 'app-logged-in-layout',
@@ -12,16 +11,15 @@ const lsHelper = new LocalStorageHelper();
 export class LoggedInLayoutComponent implements OnInit {
 
   constructor(
-    private router: Router
+    private router: Router,
+    private loginService: LoginService
   ) { }
 
-  ngOnInit() {
-  }
-
+  ngOnInit() { }
 
   logout() {
+    this.loginService.logOut();
     this.router.navigateByUrl('login');
-    lsHelper.clear();
   }
 
 }

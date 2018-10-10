@@ -14,7 +14,14 @@ export class CommentService {
   ) {}
 
   getComments(recordId: number): Promise<any> {
-    return lsHelper.get('comments', {by: 'record', value: recordId});
+    return new Promise((resolve, reject) => {
+      lsHelper.check('comments').then(() => {
+        lsHelper.get('comments', {by: 'record', value: recordId}).then(comments => {
+          resolve(comments);
+        });
+      })
+    });
+
   }
 
   addComment(comment): Promise<any> {

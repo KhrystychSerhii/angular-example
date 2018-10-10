@@ -25,7 +25,6 @@ export class LoginService {
           reject();
         } else {
           const dbUser = users.find((u) => u.email === user.email);
-          console.log('dbUser', dbUser);
           if (!!dbUser && (dbUser.password === user.password)) {
             lsHelper.setLoggedInUser(dbUser);
             resolve();
@@ -39,6 +38,10 @@ export class LoginService {
 
   getLoggedInUser(): Promise<any> {
     return lsHelper.get('loggedInUser');
+  }
+
+  logOut(): void {
+    lsHelper.removeItem('loggedInUser');
   }
 
 }

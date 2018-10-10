@@ -4,6 +4,8 @@ import { Router, ActivatedRoute } from '@angular/router';
 
 import { RecordsService, CommentService, LoginService } from '../../services';
 
+import * as _ from 'lodash';
+
 @Component({
     templateUrl: 'record-item.component.html'
 })
@@ -11,6 +13,7 @@ export class RecordItemComponent implements OnInit {
     record: any;
     comments: any[] = [];
     comment: any = {};
+    recordRating: number = 1;
     user: any;
 
     constructor(
@@ -25,7 +28,6 @@ export class RecordItemComponent implements OnInit {
 
     ngOnInit() {
       this.loginService.getLoggedInUser().then((user) => {
-        console.log('user', user);
         this.user = user;
       });
      this.getRecords();
@@ -33,15 +35,13 @@ export class RecordItemComponent implements OnInit {
 
 
     leaveComment(comment) {
-      console.log('comment', comment);
 
       this.commentService.addComment({
         'record': this.record.id,
         'text': comment.text,
-        'reting': 5,
+        'rating': comment.rating,
         'email': this.user.email
       }).then(() => {
-        console.log('success');
         this.comment = {};
         this.getRecords();
       }, () => {
@@ -52,6 +52,7 @@ export class RecordItemComponent implements OnInit {
     private getRecords() {
       this.activatedRoute.params.subscribe(params => {
         this.recordsService.getRecordById(+params.id).then(record => {
+
           this.record = record[0];
           const promises = [];
           this.record.commentsIds.forEach(r => {
@@ -59,8 +60,15 @@ export class RecordItemComponent implements OnInit {
           });
           Promise.all(promises).then((comments) => {
             this.comments = [].concat(...comments);
+            this.recordRating = this.calculateRating(this.comments);
           });
         });
       });
+    }
+
+    private calculateRating(comments: any[]) {
+      const summ = _.sumBy(comments, 'rating');
+
+      return +(summ / comments.length).toFixed(2);
     }
 }

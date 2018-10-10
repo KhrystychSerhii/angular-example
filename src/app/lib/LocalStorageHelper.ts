@@ -5,20 +5,7 @@ import * as _ from 'lodash';
 import { exampleData } from '../../assets/example-data';
 
 export class LocalStorageHelper {
-  constructor() {
-    console.log('exampleData', exampleData);
-    if (!localStorage.getItem('users')) {
-      localStorage.setItem('users', JSON.stringify(exampleData.users));
-    }
-    if (!!localStorage.getItem('loggedInUser')) {
-      if (!localStorage.getItem('records')) {
-        localStorage.setItem('records', JSON.stringify(exampleData.records));
-      }
-      if (!localStorage.getItem('comments')) {
-        localStorage.setItem('comments', JSON.stringify(exampleData.comments));
-      }
-    }
-  }
+  constructor() {}
 
   public post(path: string, data: any): Promise<any> {
     return new Promise((resolve, reject) => {
@@ -92,6 +79,21 @@ export class LocalStorageHelper {
 
   public setLoggedInUser(user): void {
     localStorage.setItem('loggedInUser', JSON.stringify(user));
+  }
+
+  public removeItem(path: string): void {
+    localStorage.removeItem(path);
+  }
+
+  public check(path: string): Promise<any> {
+    return new Promise((resolve, reject) => {
+      if (!localStorage.getItem(path)) {
+        localStorage.setItem(path, JSON.stringify(exampleData[path]));
+        resolve();
+      } else {
+        resolve();
+      }
+    });
   }
 
   private getMaxId(array: any[]): number {

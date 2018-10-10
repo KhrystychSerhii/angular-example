@@ -4,6 +4,7 @@
     <div class="row">
 
       <!-- Post Content Column -->
+      <div class="col-lg-2"></div>
       <div class="col-lg-8">
 
         <div *ngIf="!!record">
@@ -11,10 +12,11 @@
           <h1 class="mt-4">{{ record.title }}</h1>
 
           <!--&lt;!&ndash; Author &ndash;&gt;-->
-          <!--<p class="lead">-->
+          <p class="lead">
+            Rating: {{recordRating}}/5
           <!--by-->
           <!--<a href="#">Start Bootstrap</a>-->
-          <!--</p>-->
+          </p>
 
           <!--<hr>-->
 
@@ -41,7 +43,20 @@
                 <div class="form-group">
                   <textarea name="text" class="form-control" rows="3" [(ngModel)]="comment.text"></textarea>
                 </div>
-                <button type="button" class="btn btn-primary" (click)="leaveComment(comment)">Submit</button>
+                <div class="form-group">
+                  <select class="form-control" name="rating" [(ngModel)]="comment.rating">
+                    <option selected disabled>Select rating value</option>
+                    <option value="1">1</option>
+                    <option value="2">2</option>
+                    <option value="3">3</option>
+                    <option value="4">4</option>
+                    <option value="5">5</option>
+                  </select>
+
+                </div>
+                <button type="button" class="btn btn-primary" (click)="leaveComment(comment)" [disabled]="!comment.text || !comment.rating">Submit</button>
+
+
               </form>
             </div>
           </div>
@@ -55,6 +70,7 @@
               <h5 class="mt-0">{{comment.email}}</h5>
               {{ comment.text }}
             </div>
+            <div class="media-footer">{{comment.rating}}/5</div>
           </div>
         </div>
       </div>

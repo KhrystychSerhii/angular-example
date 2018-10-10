@@ -21,7 +21,5 @@ export class RecordCardComponent implements OnInit {
     private router: Router
   ) {}
 
-  ngOnInit() {
-console.log('this.record', this.record);
-  }
+  ngOnInit() {}
 }

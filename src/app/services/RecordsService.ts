@@ -11,7 +11,14 @@ export class RecordsService {
   constructor() {}
 
   getRecords(): Promise<any> {
-    return lsHelper.get('records');
+    return new Promise((resolve, reject) => {
+      lsHelper.check('records').then(() => {
+        lsHelper.get('records').then(records => {
+          resolve(records);
+        });
+      });
+    });
+
   }
 
   getRecordById(id: number): Promise<any> {
